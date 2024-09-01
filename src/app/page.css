@@ -1,0 +1,40 @@
+.page {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  max-height: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(160deg, #5000d6, black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.headers {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.item {
+  margin: 0 1rem;
+}
+
+h1 {
+  font-size: 3rem;
+  color: white;
+  text-align: center;
+}
+
+h3 {
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+}
+
+tspan {
+  fill: white;
+}
