@@ -27,11 +27,6 @@ export async function loadScoreData(): Promise<number[]> {
 
   const scores: number[] = data.map((team) => team.emails[0]?.count ?? 0);
 
-  // log each score one by one
-  // scores.forEach((score) => {
-  //   console.log(score);
-  // });
-
   return scores;
 }
 
@@ -56,19 +51,41 @@ export async function loadTeams(): Promise<string[]> {
 
   const teams: string[] = data.map((team) => team.name);
 
-  // log each team one by one
-  teams.forEach((team) => {
-    console.log(team);
-  });
-
   return teams ?? [];
 }
 
-export async function insertEmail(email: string, team_id: string) {
+export async function insertEmail(netid: string, team_name: string) {
   const supabase_client = await getDbClient();
 
+  // Look up the team_id based on the team_name
+  const { data: teamData, error: teamError } = await supabase_client
+    .from("teams")
+    .select("id")
+    .eq("name", team_name)
+    .single();
+
+  if (teamError) {
+    console.error("Error fetching team_id:", teamError);
+    return;
+  }
+
+  const team_id = teamData?.id;
+
+  if (!team_id) {
+    console.error("No team found with the specified name:", team_name);
+    return;
+  }
+
+  // Insert the email into the emails table
   const { data, error } = await supabase_client
     .from("emails")
-    .insert([{ team_id: team_id, email: email }])
+    .insert([{ team_id: team_id, email: netid }])
     .select();
+
+  if (error) {
+    console.error("Error inserting email:", error);
+    return;
+  }
+
+  console.log("Email inserted successfully:", data);
 }

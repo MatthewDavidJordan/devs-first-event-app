@@ -1,9 +1,30 @@
-// handle json requests
+import { NextResponse } from "next/server";
+import { insertEmail } from "@/lib/queries";
 
-// make sure the requests are good and have a netid key and a teamid key
+export async function POST(request: Request) {
+  try {
+    const { netid, team_name } = await request.json();
 
-// make a detailed error that will be returned otherwise
+    // Validate input
+    if (!netid || !team_name) {
+      return NextResponse.json(
+        { error: "netid and team_name are required" },
+        { status: 400 }
+      );
+    }
 
-// enable all cross origin stuff so that requests can come from local domains
+    // Call the insertEmail function
+    await insertEmail(netid, team_name);
 
-// if everything is good use the insert query
+    return NextResponse.json(
+      { message: "Netid inserted successfully" },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Error processing request:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}

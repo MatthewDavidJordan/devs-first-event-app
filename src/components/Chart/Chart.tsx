@@ -57,7 +57,7 @@ export default function ChartsOverviewDemo() {
     };
   }, [supabase]);
 
-  const yTicks = [0, 10, 20, 30, 40, 50];
+  // const yTicks = [0, 10, 20, 30, 40, 50];
 
   // this is the code for the subscription, should be in a useEffect
   // const emails = supabase.channel('custom-insert-channel')
@@ -92,7 +92,6 @@ export default function ChartsOverviewDemo() {
       yAxis={[
         {
           label: "Score",
-          tickInterval: yTicks,
         },
       ]}
       margin={{ top: 50, bottom: 50, left: 50, right: 10 }}
