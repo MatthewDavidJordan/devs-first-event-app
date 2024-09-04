@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { insertEmail } from "@/lib/queries";
 
+// Handle POST requests
 export async function POST(request: Request) {
   try {
     const { netid, team_name } = await request.json();
@@ -11,9 +12,6 @@ export async function POST(request: Request) {
         { error: "netid and team_name are required" },
         { status: 400 }
       );
-      response.headers.set("Access-Control-Allow-Origin", "*");
-      response.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
-      response.headers.set("Access-Control-Allow-Headers", "Content-Type");
       return response;
     }
 
@@ -24,9 +22,6 @@ export async function POST(request: Request) {
       { message: "Netid inserted successfully" },
       { status: 201 }
     );
-    response.headers.set("Access-Control-Allow-Origin", "*");
-    response.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
-    response.headers.set("Access-Control-Allow-Headers", "Content-Type");
     return response;
   } catch (error) {
     console.error("Error processing request:", error);
@@ -35,9 +30,6 @@ export async function POST(request: Request) {
       { error: "Internal server error" },
       { status: 500 }
     );
-    response.headers.set("Access-Control-Allow-Origin", "*");
-    response.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
-    response.headers.set("Access-Control-Allow-Headers", "Content-Type");
     return response;
   }
 }
@@ -45,10 +37,5 @@ export async function POST(request: Request) {
 // Handle preflight OPTIONS requests
 export function OPTIONS() {
   const response = NextResponse.json({}, { status: 204 });
-
-  response.headers.set("Access-Control-Allow-Origin", "*");
-  response.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
-  response.headers.set("Access-Control-Allow-Headers", "Content-Type");
-
   return response;
 }
