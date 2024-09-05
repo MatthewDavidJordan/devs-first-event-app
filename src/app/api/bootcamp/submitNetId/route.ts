@@ -34,8 +34,8 @@ export async function POST(request: Request) {
   }
 }
 
-// Handle preflight OPTIONS requests
+// Handle preflight OPTIONS requests from outside domains
 export function OPTIONS() {
-  const response = NextResponse.json({}, { status: 204 });
+  const response = NextResponse.json({}, { status: 200 });
   return response;
 }
