@@ -9,7 +9,10 @@ export default function Home() {
           <h1>Devs Kickoff</h1>
         </div>
         <div className="item">
-          <h3>Send emails to this url: localhost:3000/emails/send</h3>
+          <h3>
+            Send NetId's to:
+            bootcamp.hoyadevelopers.com/api/bootcamp/submitNetId
+          </h3>
         </div>
       </div>
       <Chart />
