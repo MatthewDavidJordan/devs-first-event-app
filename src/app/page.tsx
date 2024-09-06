@@ -10,7 +10,7 @@ export default function Home() {
         </div>
         <div className="item">
           <h3>
-            Send NetId's to:
+            Send NetId&apos;s to:
             bootcamp.hoyadevelopers.com/api/bootcamp/submitNetId
           </h3>
         </div>
