@@ -1,3 +1,4 @@
+// api/submitNetID/route.ts
 import { NextResponse } from "next/server";
 import { insertEmail } from "@/lib/queries";
 
@@ -8,34 +9,39 @@ export async function POST(request: Request) {
 
     // Validate input
     if (!netid || !team_name) {
-      const response = NextResponse.json(
+      return NextResponse.json(
         { error: "netid and team_name are required" },
         { status: 400 }
       );
-      return response;
     }
 
     // Call the insertEmail function
-    await insertEmail(netid, team_name);
+    const result = await insertEmail(netid, team_name);
 
-    const response = NextResponse.json(
-      { message: "Netid inserted successfully" },
+    // Handle errors from insertEmail
+    if (result.error) {
+      return NextResponse.json({ error: result.error }, { status: 500 });
+    }
+
+    // Respond with success if the email was inserted and the email was sent
+    return NextResponse.json(
+      {
+        message: "Netid inserted and verification email sent successfully",
+        email: result.email,
+      },
       { status: 201 }
     );
-    return response;
   } catch (error) {
     console.error("Error processing request:", error);
 
-    const response = NextResponse.json(
+    return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
     );
-    return response;
   }
 }
 
 // Handle preflight OPTIONS requests from outside domains
 export function OPTIONS() {
-  const response = NextResponse.json({}, { status: 200 });
-  return response;
+  return NextResponse.json({}, { status: 204 });
 }

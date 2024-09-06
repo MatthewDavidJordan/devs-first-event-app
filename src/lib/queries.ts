@@ -77,14 +77,14 @@ export async function insertEmail(netid: string, team_name: string) {
 
   if (teamError) {
     console.error("Error fetching team_id:", teamError);
-    return;
+    return { error: teamError.message }; // Return error object
   }
 
   const team_id = teamData?.id;
 
   if (!team_id) {
     console.error("No team found with the specified name:", team_name);
-    return;
+    return { error: "No team found" };
   }
 
   // Insert the email, nonce, and confirmed status into the emails table
@@ -95,11 +95,14 @@ export async function insertEmail(netid: string, team_name: string) {
 
   if (error) {
     console.error("Error inserting email:", error);
-    return;
+    return { error: error.message };
   }
 
   console.log("Email inserted successfully:", data);
 
   // Send a verification email with the nonce and email
   await sendVerificationEmail(email, nonce); // Use the email sending utility
+
+  // Return success along with email and nonce
+  return { success: true, email, nonce };
 }
