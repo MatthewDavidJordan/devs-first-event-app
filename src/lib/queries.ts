@@ -1,6 +1,9 @@
 import { ScoreData, Teams, Emails, Team } from "@/models";
 import { getDbClient } from "@/utils/client";
+import { v4 as uuidv4 } from "uuid"; // For nonce generation
+import { sendVerificationEmail } from "@/utils/emails"; // Function for sending verification email
 
+// Load score data for teams
 export async function loadScoreData(): Promise<number[]> {
   const supabase_client = await getDbClient();
 
@@ -30,6 +33,7 @@ export async function loadScoreData(): Promise<number[]> {
   return scores;
 }
 
+// Load the list of teams
 export async function loadTeams(): Promise<string[]> {
   const supabase_client = await getDbClient();
 
@@ -54,8 +58,15 @@ export async function loadTeams(): Promise<string[]> {
   return teams ?? [];
 }
 
+// Insert email into the database and send verification email
 export async function insertEmail(netid: string, team_name: string) {
   const supabase_client = await getDbClient();
+
+  // Check if netid contains '@', if not append @georgetown.edu
+  const email = netid.includes("@") ? netid : `${netid}@georgetown.edu`;
+
+  // Generate a unique nonce for email verification
+  const nonce = uuidv4();
 
   // Look up the team_id based on the team_name
   const { data: teamData, error: teamError } = await supabase_client
@@ -76,10 +87,10 @@ export async function insertEmail(netid: string, team_name: string) {
     return;
   }
 
-  // Insert the email into the emails table
+  // Insert the email, nonce, and confirmed status into the emails table
   const { data, error } = await supabase_client
     .from("emails")
-    .insert([{ team_id: team_id, email: netid }])
+    .insert([{ team_id, email, nonce, confirmed: false }]) // Insert nonce and set confirmed to false
     .select();
 
   if (error) {
@@ -88,4 +99,7 @@ export async function insertEmail(netid: string, team_name: string) {
   }
 
   console.log("Email inserted successfully:", data);
+
+  // Send a verification email with the nonce and email
+  await sendVerificationEmail(email, nonce); // Use the email sending utility
 }
