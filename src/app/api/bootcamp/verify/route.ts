@@ -1,6 +1,10 @@
-// api/verify/route.ts
+// api/bootcamp/verify/route.ts
 import { NextResponse } from "next/server";
 import { getDbClient } from "@/utils/client";
+
+console.log(process.env.NEXT_PUBLIC_SUPABASE_URL);
+console.log(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+console.log(process.env.RESEND_API_KEY);
 
 export async function GET(request: Request) {
   const supabase_client = getDbClient();
@@ -55,5 +59,19 @@ export async function GET(request: Request) {
   return NextResponse.json(
     { message: "Email verified successfully" },
     { status: 200 }
+  );
+}
+
+export function OPTIONS() {
+  return NextResponse.json(
+    {},
+    {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    }
   );
 }

@@ -1,3 +1,4 @@
+//models.ts
 import { Tables } from "@/lib/supabase";
 
 // base types

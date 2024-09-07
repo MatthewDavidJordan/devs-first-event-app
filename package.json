@@ -15,6 +15,7 @@
     "@mui/x-charts": "^7.15.0",
     "@supabase/supabase-js": "^2.45.3",
     "next": "14.2.7",
+    "nodemailer": "^6.9.15",
     "react": "^18",
     "react-dom": "^18",
     "resend": "^4.0.0",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.15",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/uuid": "^10.0.0",
