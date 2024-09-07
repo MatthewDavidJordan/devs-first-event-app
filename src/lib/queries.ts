@@ -1,3 +1,4 @@
+//lib/queries.ts
 import { ScoreData, Teams, Emails, Team } from "@/models";
 import { getDbClient } from "@/utils/client";
 import { v4 as uuidv4 } from "uuid"; // For nonce generation
@@ -58,7 +59,6 @@ export async function loadTeams(): Promise<string[]> {
   return teams ?? [];
 }
 
-// Insert email into the database and send verification email
 export async function insertEmail(netid: string, team_name: string) {
   const supabase_client = await getDbClient();
 
@@ -90,7 +90,7 @@ export async function insertEmail(netid: string, team_name: string) {
   // Insert the email, nonce, and confirmed status into the emails table
   const { data, error } = await supabase_client
     .from("emails")
-    .insert([{ team_id, email, nonce, confirmed: false }]) // Insert nonce and set confirmed to false
+    .insert([{ team_id, email, nonce, confirmed: false }]) // Insert team_id and other fields
     .select();
 
   if (error) {
