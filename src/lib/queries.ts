@@ -38,11 +38,13 @@ export async function loadTeams(): Promise<string[]> {
   return teams;
 }
 
+// Insert email into database, checks if Netid is an email if not appends @georgetown.edu
 export async function insertEmail(netid: string, team_name: string) {
   const supabase_client = await getDbClient();
   const email = netid.includes("@") ? netid : `${netid}@georgetown.edu`;
   const nonce = uuidv4();
 
+  // Look up team_id by team_name
   const { data: teamData, error: teamError } = await supabase_client
     .from("teams")
     .select("id")
@@ -57,6 +59,7 @@ export async function insertEmail(netid: string, team_name: string) {
   const team_id = teamData?.id;
   if (!team_id) return { error: "No team found" };
 
+  // Insert email into database
   const { data, error } = await supabase_client
     .from("emails")
     .insert([{ team_id, email, nonce, confirmed: false }])
