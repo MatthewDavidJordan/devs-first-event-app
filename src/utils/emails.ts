@@ -7,7 +7,7 @@ export async function sendVerificationEmail(email: string, nonce: string) {
     throw new Error("sendVerificationEmail should only be run on the server");
   }
 
-  const verificationLink = `${process.env.NEXT_PUBLIC_BASE_URL}/verify?email=${email}&nonce=${nonce}`;
+  const verificationLink = `${process.env.NEXT_PUBLIC_BASE_URL}/api/bootcamp/verify?email=${email}&nonce=${nonce}`;
 
   // Set up Nodemailer transport
   const transporter = nodemailer.createTransport({

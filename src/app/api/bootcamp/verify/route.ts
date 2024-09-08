@@ -2,10 +2,6 @@
 import { NextResponse } from "next/server";
 import { getDbClient } from "@/utils/client";
 
-console.log(process.env.NEXT_PUBLIC_SUPABASE_URL);
-console.log(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
-console.log(process.env.RESEND_API_KEY);
-
 export async function GET(request: Request) {
   const supabase_client = getDbClient();
 
