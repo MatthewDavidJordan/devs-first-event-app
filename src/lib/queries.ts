@@ -7,6 +7,7 @@ export async function loadScoreData(): Promise<number[]> {
   const { data, error } = await supabase_client
     .from("teams")
     .select("name, emails:emails(count)")
+    .eq("emails.confirmed", true) // Filter to only load confirmed emails
     .order("name");
 
   if (error) {
@@ -38,10 +39,20 @@ export async function loadTeams(): Promise<string[]> {
   return teams;
 }
 
-// Insert email into database, checks if Netid is an email if not appends @georgetown.edu
+/// Insert email into database, checks if Netid is an email, and ensures it ends with @georgetown.edu
 export async function insertEmail(netid: string, team_name: string) {
   const supabase_client = await getDbClient();
-  const email = netid.includes("@") ? netid : `${netid}@georgetown.edu`;
+
+  // Normalize the email to ensure it always ends with '@georgetown.edu'
+  let email: string;
+  if (netid.includes("@")) {
+    // If there's an '@', make sure the domain is correct
+    email = `${netid.split("@")[0]}@georgetown.edu`; // Always use 'georgetown.edu' as the domain
+  } else {
+    // If no '@' is present, append '@georgetown.edu'
+    email = `${netid}@georgetown.edu`;
+  }
+
   const nonce = uuidv4();
 
   // Look up team_id by team_name
