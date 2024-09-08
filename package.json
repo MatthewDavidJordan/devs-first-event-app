@@ -16,7 +16,10 @@
     "@supabase/supabase-js": "^2.45.3",
     "next": "14.2.7",
     "nodemailer": "^6.9.15",
-    "supabase": "^1.191.3"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "supabase": "^1.191.3",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",
