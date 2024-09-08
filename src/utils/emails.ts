@@ -1,6 +1,6 @@
 //utils/emails.ts
 import { Resend } from "resend";
-// Declare resend but don't initialize it yet
+
 let resend: Resend | undefined;
 
 if (typeof window === "undefined") {
@@ -9,7 +9,6 @@ if (typeof window === "undefined") {
 }
 
 export async function sendVerificationEmail(email: string, nonce: string) {
-  // Check if the resend client is initialized
   if (!resend) {
     throw new Error(
       "Resend client is not initialized. This function should only be run on the server."
@@ -18,9 +17,9 @@ export async function sendVerificationEmail(email: string, nonce: string) {
 
   const verificationLink = `${process.env.NEXT_PUBLIC_BASE_URL}/verify?email=${email}&nonce=${nonce}`;
 
-  // Add logs for debugging
-  console.log("Sending email to:", email); // Log the email
-  console.log("Verification link:", verificationLink); // Log the verification link
+  //debugging
+  console.log("Sending email to:", email);
+  console.log("Verification link:", verificationLink);
 
   try {
     const response = await resend.emails.send({

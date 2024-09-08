@@ -74,17 +74,14 @@ export async function POST(request: Request) {
 
 // Handle preflight OPTIONS requests (CORS)
 export function OPTIONS() {
-  return NextResponse.json(
-    {},
-    {
-      status: 204,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
-    }
-  );
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
+  });
 }
 
 // Utility function to generate a unique nonce
