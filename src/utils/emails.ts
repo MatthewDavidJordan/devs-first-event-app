@@ -2,6 +2,7 @@
 import nodemailer from "nodemailer";
 
 export async function sendVerificationEmail(email: string, nonce: string) {
+  // Ensures this function is only run server-side
   if (typeof window !== "undefined") {
     throw new Error("This function should only run on the server");
   }

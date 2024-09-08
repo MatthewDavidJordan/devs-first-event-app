@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { insertEmail } from "@/lib/queries";
 import { sendVerificationEmail } from "@/utils/emails";
 
+//Handle POST request
 export async function POST(request: Request) {
   try {
     const { netid, team_name } = await request.json();
@@ -40,6 +41,7 @@ export async function POST(request: Request) {
   }
 }
 
+//Handle OPTIONS request
 export function OPTIONS() {
   return new Response(null, {
     status: 204,
