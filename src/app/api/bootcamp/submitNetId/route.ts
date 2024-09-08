@@ -1,7 +1,9 @@
 // /app/api/bootcamp/submitNetID/route.ts
 import { NextResponse } from "next/server";
-import { getDbClient } from "@/utils/client";
-import { sendVerificationEmail } from "@/utils/emails";
+import { insertEmail } from "@/lib/queries"; // Import the insertEmail function from your queries file
+
+export { insertEmail }; // Export the insertEmail function
+import { sendVerificationEmail } from "@/utils/emails"; // Import the function for sending verification emails
 
 export async function POST(request: Request) {
   try {
@@ -15,51 +17,24 @@ export async function POST(request: Request) {
       );
     }
 
-    const email = netid.includes("@") ? netid : `${netid}@georgetown.edu`;
-    const nonce = generateNonce(); // Implement a function to generate a unique nonce
+    // Call insertEmail function to handle database logic
+    const result = await insertEmail(netid, team_name);
 
-    const supabase_client = getDbClient();
-
-    // Look up the team_id based on the team_name
-    const { data: teamData, error: teamError } = await supabase_client
-      .from("teams")
-      .select("id")
-      .eq("name", team_name)
-      .single();
-
-    if (teamError) {
-      console.error("Error fetching team_id:", teamError);
-      return NextResponse.json({ error: "Team not found" }, { status: 400 });
+    // Handle errors returned by insertEmail
+    if (result.error) {
+      return NextResponse.json({ error: result.error }, { status: 500 });
     }
 
-    const team_id = teamData?.id;
-
-    if (!team_id) {
-      return NextResponse.json({ error: "Invalid team name" }, { status: 400 });
+    // Send verification email after inserting the email into the database
+    if (result.email && result.nonce) {
+      await sendVerificationEmail(result.email, result.nonce);
     }
 
-    // Insert email, nonce, and team_id into the emails table
-    const { data, error } = await supabase_client
-      .from("emails")
-      .insert({ email, team_id, nonce, confirmed: false })
-      .select("*") // Explicitly select the data you just inserted
-      .single();
-
-    if (error) {
-      console.error("Error inserting into database:", error);
-      return NextResponse.json(
-        { error: "Database insertion failed" },
-        { status: 500 }
-      );
-    }
-
-    // Send verification email
-    await sendVerificationEmail(email, nonce);
-
+    // Return success response
     return NextResponse.json(
       {
         message: "Netid inserted and verification email sent successfully",
-        email: data.email, // Now `data.email` should be available after the insertion
+        email: result.email,
       },
       { status: 201 }
     );

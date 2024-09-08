@@ -1,24 +1,16 @@
-//lib/queries.ts
-import { ScoreData, Teams, Emails, Team } from "@/models";
+// lib/queries.ts
 import { getDbClient } from "@/utils/client";
 import { v4 as uuidv4 } from "uuid"; // For nonce generation
-import { sendVerificationEmail } from "@/utils/emails"; // Function for sending verification email
 
-// Load score data for teams
+// Function to load score data for teams
 export async function loadScoreData(): Promise<number[]> {
   const supabase_client = await getDbClient();
 
-  const loadScoreDataQuery = supabase_client
+  // Query to fetch team names and the count of emails associated with each team
+  const { data, error } = await supabase_client
     .from("teams")
-    .select(
-      `
-    name,
-    emails:emails(count)
-  `
-    )
+    .select("name, emails:emails(count)")
     .order("name");
-
-  const { data, error } = await loadScoreDataQuery;
 
   if (error) {
     console.error("Error fetching score data:", error);
@@ -29,21 +21,21 @@ export async function loadScoreData(): Promise<number[]> {
     return [];
   }
 
-  const scores: number[] = data.map((team) => team.emails[0]?.count ?? 0);
+  // Extract the scores (count of emails) for each team
+  const scores: number[] = data.map((team: any) => team.emails[0]?.count ?? 0);
 
   return scores;
 }
 
-// Load the list of teams
+// Function to load the list of team names
 export async function loadTeams(): Promise<string[]> {
   const supabase_client = await getDbClient();
 
-  const loadTeamsQuery = supabase_client
+  // Query to fetch the names of all teams
+  const { data, error } = await supabase_client
     .from("teams")
     .select("name")
     .order("name");
-
-  const { data, error } = await loadTeamsQuery;
 
   if (error) {
     console.error("Error fetching teams:", error);
@@ -54,21 +46,23 @@ export async function loadTeams(): Promise<string[]> {
     return [];
   }
 
-  const teams: string[] = data.map((team) => team.name);
+  // Return the list of team names
+  const teams: string[] = data.map((team: any) => team.name);
 
-  return teams ?? [];
+  return teams;
 }
 
+// Function to insert email and generate nonce for email verification
 export async function insertEmail(netid: string, team_name: string) {
   const supabase_client = await getDbClient();
 
-  // Check if netid contains '@', if not append @georgetown.edu
+  // Ensure the email has the correct format, appending @georgetown.edu if needed
   const email = netid.includes("@") ? netid : `${netid}@georgetown.edu`;
 
   // Generate a unique nonce for email verification
   const nonce = uuidv4();
 
-  // Look up the team_id based on the team_name
+  // Retrieve the team ID based on the provided team name
   const { data: teamData, error: teamError } = await supabase_client
     .from("teams")
     .select("id")
@@ -77,7 +71,7 @@ export async function insertEmail(netid: string, team_name: string) {
 
   if (teamError) {
     console.error("Error fetching team_id:", teamError);
-    return { error: teamError.message }; // Return error object
+    return { error: teamError.message };
   }
 
   const team_id = teamData?.id;
@@ -87,10 +81,10 @@ export async function insertEmail(netid: string, team_name: string) {
     return { error: "No team found" };
   }
 
-  // Insert the email, nonce, and confirmed status into the emails table
+  // Insert the email, nonce, and other details into the emails table
   const { data, error } = await supabase_client
     .from("emails")
-    .insert([{ team_id, email, nonce, confirmed: false }]) // Insert team_id and other fields
+    .insert([{ team_id, email, nonce, confirmed: false }])
     .select();
 
   if (error) {
@@ -100,9 +94,6 @@ export async function insertEmail(netid: string, team_name: string) {
 
   console.log("Email inserted successfully:", data);
 
-  // Send a verification email with the nonce and email
-  await sendVerificationEmail(email, nonce); // Use the email sending utility
-
-  // Return success along with email and nonce
+  // Return the relevant data without sending the verification email (handled elsewhere)
   return { success: true, email, nonce };
 }
