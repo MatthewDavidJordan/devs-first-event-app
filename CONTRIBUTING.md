@@ -36,6 +36,8 @@ Make sure to configure any necessary environment variables in a `.env.local` fil
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=<get-this-from-supabase>
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<get-this-from-supabase>
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+RESEND_API_KEY=<get-from-resend>
 ```
 
 Now you're ready to start developing!
