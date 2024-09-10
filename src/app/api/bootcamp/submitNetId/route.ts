@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     if (!netid || !team_name) {
       return NextResponse.json(
         { error: "netid and team_name are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -30,13 +30,13 @@ export async function POST(request: Request) {
         message: "Netid inserted and verification email sent successfully",
         email: result.email,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("Error processing submitNetID request:", error);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
