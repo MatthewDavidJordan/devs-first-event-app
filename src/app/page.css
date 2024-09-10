@@ -22,11 +22,13 @@
 
 h1 {
   font-size: 3rem;
+  margin: 0 1rem;
   color: white;
   text-align: center;
 }
 
 h3 {
+  margin-bottom: 1rem;
   font-size: 1.5rem;
   color: white;
   text-align: center;
