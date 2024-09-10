@@ -46,7 +46,7 @@ export async function sendVerificationEmail(email: string, nonce: string) {
       `;
   try {
     const info = await resend.emails.send({
-      from: "Hoya Devs <bootcamp@hoyadevelopers.com>",
+      from: "Hoya Devs <admin@bootcamp.hoyadevelopers.com>",
       to: [email],
       subject: "Verify Your Email for Hoya Developers Kickoff Contest",
       html,
