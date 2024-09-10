@@ -6,10 +6,12 @@ export default function Home() {
     <div className="page">
       <div className="headers">
         <h1>Devs Kickoff</h1>
-        <h3>
-          Send NetIDs to:
-          https://bootcamp.hoyadevelopers.com/api/bootcamp/submitNetId
-        </h3>
+        <span className="sub-head">
+          Send NetIDs to:{" "}
+          <span className="link-text">
+            https://bootcamp.hoyadevelopers.com/api/bootcamp/submitNetId
+          </span>
+        </span>
       </div>
       <Chart />
     </div>

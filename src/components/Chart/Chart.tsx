@@ -57,23 +57,10 @@ export default function ChartsOverviewDemo() {
     };
   }, [supabase]);
 
-  // const yTicks = [0, 10, 20, 30, 40, 50];
-
-  // this is the code for the subscription, should be in a useEffect
-  // const emails = supabase.channel('custom-insert-channel')
-  // .on(
-  //   'postgres_changes',
-  //   { event: 'INSERT', schema: 'public', table: 'emails' },
-  //   (payload) => {
-  //     console.log('Change received!', payload)
-  //   }
-  // )
-  // .subscribe()
-
   return (
     <BarChart
       series={[{ data: scoreData, label: "Emails" }]}
-      borderRadius={20}
+      borderRadius={5}
       colors={[
         "#ffffff",
         "#f0f0f0",
