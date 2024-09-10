@@ -17,26 +17,34 @@ export async function sendVerificationEmail(email: string, nonce: string) {
 
           <h2 style="color: #007bff; text-align: center;">Thank you for being a part of our Hoya Developers Kickoff Contest!</h2>
 
-          <p>Dear participant,</p>
+          <p>Dear recipient,</p>
 
-          <p>We are thrilled that you have chosen to participate in our event! To ensure your submission is valid, please confirm your email by clicking the link below:</p>
+          <p>
+            The team you just met is participating in the first ever Hoya Developers Bootcamp Launch Event!
+            Their challenge is simple: build a website to collect as many unique netIds as possible before 10pm.
+            By verifying your email, you will be counted towards the teams total emails -- you can monitor the teams progress [here](https://bootcamp.hoyadevelopers.com).
+          </p>
+
+          <p>
+            To verify your submission, please confirm your netId by clicking the link below:
+          </p>
 
           <p style="text-align: center;">
             <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; color: #ffffff; background-color: #370F7E; text-decoration: none; border-radius: 5px;">
-              Verify Your Email
+              Verify Your NetId
             </a>
           </p>
 
-          <p>By verifying your email, you will ensure that your submission is counted as a valid entry in the contest!</p>
-
-          <p>If you have any questions or need further assistance, feel free to reach out to us at:</p>
+          <p>
+            By verifying, you will NOT be added to a mailing list or have your email distributed. 
+            This is just for our Hoya Developers Kickoff Event!
+            If you have any questions or need further assistance, feel free to reach out to us at:
+          </p>
 
           <p>
             <strong>Email:</strong> hoyadevelopers@gmail.com<br />
           </p>
-
-          <p>We appreciate your participation!</p>
-
+          
           <p>Best regards,<br>Hoya Developers Team</p>
 
           <div style="text-align: center; margin-top: 30px;">
