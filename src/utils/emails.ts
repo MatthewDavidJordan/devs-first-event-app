@@ -1,6 +1,7 @@
 // utils/emails.ts
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
+const resend = new Resend(process.env.RESEND_API_KEY);
 export async function sendVerificationEmail(email: string, nonce: string) {
   // Ensures this function is only run server-side
   if (typeof window !== "undefined") {
@@ -9,21 +10,7 @@ export async function sendVerificationEmail(email: string, nonce: string) {
 
   const verificationLink = `${process.env.NEXT_PUBLIC_BASE_URL}/api/bootcamp/verify?email=${email}&nonce=${nonce}`;
 
-  const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: process.env.GMAIL_USER,
-      pass: process.env.GMAIL_PASS,
-    },
-  });
-
-  try {
-    const info = await transporter.sendMail({
-      from: process.env.GMAIL_USER,
-      to: email,
-      subject: "[ACTION REQUIRED] Verify your email request",
-      html: `
-        <div style="font-family: Arial, sans-serif; color: #333;">
+  const html = `<div style="font-family: Arial, sans-serif; color: #333;">
           <div style="text-align: center;">
             <img src="${process.env.NEXT_PUBLIC_BASE_URL}/wordlogo.png" alt="Event Logo" style="max-width: 200px; margin-bottom: 20px;" />
           </div>
@@ -56,7 +43,13 @@ export async function sendVerificationEmail(email: string, nonce: string) {
             <a href="https://hoyadevelopers.com" style="color: #007bff; text-decoration: none;">Visit our website</a>
           </div>
         </div>
-      `,
+      `;
+  try {
+    const info = await resend.emails.send({
+      from: "Hoya Devs <bootcamp@hoyadevelopers.com>",
+      to: [email],
+      subject: "Verify Your Email for Hoya Developers Kickoff Contest",
+      html,
     });
 
     console.log("Verification email sent:", info);
