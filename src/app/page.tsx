@@ -5,15 +5,11 @@ export default function Home() {
   return (
     <div className="page">
       <div className="headers">
-        <div className="item">
-          <h1>Devs Kickoff</h1>
-        </div>
-        <div className="item">
-          <h3>
-            Send NetIDs to:
-            https://bootcamp.hoyadevelopers.com/api/bootcamp/submitNetId
-          </h3>
-        </div>
+        <h1>Devs Kickoff</h1>
+        <h3>
+          Send NetIDs to:
+          https://bootcamp.hoyadevelopers.com/api/bootcamp/submitNetId
+        </h3>
       </div>
       <Chart />
     </div>
