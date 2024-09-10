@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   if (!email || !nonce) {
     return NextResponse.json(
       { error: "Missing email or nonce" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -27,7 +27,7 @@ export async function GET(request: Request) {
   if (error || !data) {
     return NextResponse.json(
       { error: "Invalid email or nonce" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -35,7 +35,7 @@ export async function GET(request: Request) {
   if (data.confirmed) {
     return NextResponse.json(
       { message: "Email is already verified" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -43,18 +43,19 @@ export async function GET(request: Request) {
   const { error: updateError } = await supabase_client
     .from("emails")
     .update({ confirmed: true })
-    .eq("email", email);
+    .eq("email", email)
+    .eq("nonce", nonce);
 
   if (updateError) {
     return NextResponse.json(
       { error: "Error updating confirmation status" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 
   return NextResponse.json(
     { message: "Email verified successfully" },
-    { status: 200 }
+    { status: 200 },
   );
 }
 
