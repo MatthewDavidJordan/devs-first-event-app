@@ -44,9 +44,7 @@ export async function sendVerificationEmail(email: string, nonce: string) {
           <p>
             <strong>Email:</strong> hoyadevelopers@gmail.com<br />
           </p>
-
-          <p>We appreciate your participation!</p>
-
+          
           <p>Best regards,<br>Hoya Developers Team</p>
 
           <div style="text-align: center; margin-top: 30px;">
