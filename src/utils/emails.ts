@@ -28,14 +28,14 @@ export async function sendVerificationEmail(email: string, nonce: string) {
             <img src="${process.env.NEXT_PUBLIC_BASE_URL}/wordlogo.png" alt="Event Logo" style="max-width: 200px; margin-bottom: 20px;" />
           </div>
 
-          <h2 style="color: #007bff; text-align: center;">Thank you for being a part of our HoyaDeveloper's Kickoff Contest!</h2>
+          <h2 style="color: #007bff; text-align: center;">Thank you for being a part of our Hoya Developers Kickoff Contest!</h2>
 
           <p>Dear participant,</p>
 
           <p>We are thrilled that you have chosen to participate in our event! To ensure your submission is valid, please confirm your email by clicking the link below:</p>
 
           <p style="text-align: center;">
-            <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; color: #ffffff; background-color: #28a745; text-decoration: none; border-radius: 5px;">
+            <a href="${verificationLink}" style="display: inline-block; padding: 10px 20px; color: #ffffff; background-color: #370F7E; text-decoration: none; border-radius: 5px;">
               Verify Your Email
             </a>
           </p>
