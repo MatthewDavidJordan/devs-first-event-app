@@ -1,7 +1,7 @@
 // utils/emails.ts
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || "");
 export async function sendVerificationEmail(email: string, nonce: string) {
   // Ensures this function is only run server-side
   if (typeof window !== "undefined") {
