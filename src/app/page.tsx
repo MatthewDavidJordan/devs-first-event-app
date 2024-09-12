@@ -75,8 +75,8 @@ export default function Home() {
         timeRemaining.minutes > 0 &&
         timeRemaining.minutes < 30 && (
           <p className="time-message">
-            Total counts are hidden for the last 30 minutes of the challenge!
-            We'll see you all at 10PM in Vil A B302 to announce the winner!
+            Total counts are hidden for the last 30 minutes of the challenge! We
+            will see you all at 10PM in Vil A B302 to announce the winner!
           </p>
         )}
     </div>
